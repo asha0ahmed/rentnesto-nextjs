@@ -14,6 +14,7 @@ const propertyRoutes = require('./routes/propertyRoutes');
 
 // Create Express app
 const app = express();
+app.set('trust proxy', 1);
 
 // Connect to Database
 connectDatabase();
@@ -25,7 +26,7 @@ app.use(helmet());
 app.use(cors({
   origin: ['https://rentnesto.xyz',
            'https://www.rentnesto.xyz',
-           'https://rentnesto-nextjs-vpid.vercel.app/', 
+           'https://rentnesto-nextjs-vpid.vercel.app', 
            'http://localhost:3000'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
