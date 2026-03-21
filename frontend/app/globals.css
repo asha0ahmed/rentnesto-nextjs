@@ -11,3 +11,7 @@ body {
   background-color: #f8f9fa;
   color: #333;
 }
+
+.App {
+  padding-top: 80px; /* Height of your fixed navbar */
+}

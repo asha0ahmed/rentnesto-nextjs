@@ -1,5 +1,6 @@
 import './globals.css';
 import './index.css';
+import './Home.css';
 import Providers from './providers';
 import Navbar from '../components/Navbar';
 
