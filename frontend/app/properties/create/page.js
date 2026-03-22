@@ -441,6 +441,42 @@ const CreatePropertyContent = () => {
             </div>
           </div>
 
+            {/* ============== NEW BUTTON SECTION ============== */}
+          <div className="form-section" style={{ 
+            background: 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)',
+            padding: '30px 24px',
+            borderRadius: '12px',
+            border: '2px solid #2563eb',
+            textAlign: 'center',
+            marginBottom: '40px',
+            boxShadow: '0 4px 15px rgba(37, 99, 235, 0.2)'
+          }}>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              style={{ 
+                width: '100%', 
+                padding: '16px 24px', 
+                fontSize: '18px',
+                fontWeight: '700',
+                borderRadius: '8px',
+                letterSpacing: '0.5px'
+              }}
+              disabled={loading}
+            >
+              {loading ? '⏳ Creating Property...' : '✓ Create Property Now'}
+            </button>
+            <p style={{ 
+              marginTop: '16px', 
+              color: '#1e40af', 
+              fontSize: '14px', 
+              fontWeight: '600',
+              margin: '16px 0 0 0'
+            }}>
+              বাকি তথ্যগুলি পূরণ করে এগিয়ে যান
+            </p>
+          </div>
+
           <div className="form-section">
             <h2>Property Features</h2>
 
