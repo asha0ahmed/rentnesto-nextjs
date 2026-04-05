@@ -213,9 +213,12 @@ body.menu-open .footer {
 }
 
 /* IMPORTANT: Keep navbar and menu normal (no zoom) */
-body.menu-open .navbar,
 body.menu-open .navbar-links,
 body.menu-open .hamburger {
   transform: none !important;
-  filter: none !important;
+}
+
+body.menu-open .navbar {
+  transform: none !important;
+  /* DO NOT remove filter - navbar needs backdrop-filter for glassmorphism */
 }
