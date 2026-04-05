@@ -94,6 +94,13 @@
   color: #1f2937;
 }
 
+/* Red star for required fields */
+.required-star {
+  color: #ef4444;
+  font-weight: 700;
+  margin-left: 2px;
+}
+
 /* Form Actions */
 .form-actions {
   display: flex;

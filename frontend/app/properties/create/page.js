@@ -181,17 +181,19 @@ const CreatePropertyContent = () => {
 
             <div className="property-highlight-box">
               <h3>
-                <span className="property-highlight-icon">✓</span>
-                বিজ্ঞাপন টিপস
+                <span className="property-highlight-icon"></span>
+                            !!!সতর্কীকরণ!!!
               </h3>
               <p>
-                উচ্চমানের ছবি এবং সঠিক তথ্য দিয়ে আপনার সম্পত্তি দ্রুত ভাড়া হতে সাহায্য করে।
-                স্পষ্ট যোগাযোগ তথ্য এবং আকর্ষণীয় বিবরণ যোগ করুন যাতে সম্ভাব্য ভাড়াটিয়ারা সহজেই যোগাযোগ করতে পারে।
+                লাল তারকা চিহ্নিত ঘরগুলো অবশ্যই পূরণ করার জন্য অনুরোধ করা হলো। অন্যথায় আপনার বাসা ভাড়া টি ওয়েবসাইটে লিস্ট হবে না
               </p>
             </div>
 
             <div className="form-group">
-              <label className="form-label">Property Title(বাসার শিরোনাম)*</label>
+              <label className="form-label">
+                Property Title(বাসার শিরোনাম)
+                <span className="required-star">*</span>
+                </label>
               <input
                 type="text"
                 name="title"
@@ -204,7 +206,10 @@ const CreatePropertyContent = () => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Description(বর্ণনা) *</label>
+              <label className="form-label">
+                Description(বর্ণনা)
+                <span className="required-star">*</span>
+              </label>
               <textarea
                 name="description"
                 className="form-textarea"
@@ -218,7 +223,10 @@ const CreatePropertyContent = () => {
 
             <div className="form-row">
               <div className="form-group">
-                <label className="form-label">Property Type(বাসার ধরন) *</label>
+                <label className="form-label">
+                  Property Type(বাসার ধরন)
+                  <span className="required-star">*</span>
+                </label>
                 <select
                   name="propertyType"
                   className="form-select"
@@ -241,7 +249,10 @@ const CreatePropertyContent = () => {
 
             <div className="form-row">
               <div className="form-group">
-                <label className="form-label">Division(বিভাগ) *</label>
+                <label className="form-label">
+                  Division(বিভাগ)
+                  <span className="required-star">*</span>
+                  </label>
                 <select
                   name="division"
                   className="form-select"
@@ -261,7 +272,10 @@ const CreatePropertyContent = () => {
               </div>
 
               <div className="form-group">
-                <label className="form-label">District(জেলা) *</label>
+                <label className="form-label">
+                  District(জেলা)
+                  <span className="required-star">*</span>
+                </label>
                 <input
                   type="text"
                   name="district"
@@ -276,7 +290,10 @@ const CreatePropertyContent = () => {
 
             <div className="form-row">
               <div className="form-group">
-                <label className="form-label">Area/Locality(এরিয়া) *</label>
+                <label className="form-label">
+                  Area/Locality(এরিয়া)
+                  <span className="required-star">*</span>
+                </label>
                 <input
                   type="text"
                   name="area"
@@ -290,7 +307,10 @@ const CreatePropertyContent = () => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Full Address(বিস্তারিত ঠিকানা) *</label>
+              <label className="form-label">
+                Full Address(বিস্তারিত ঠিকানা)
+                <span className="required-star">*</span>
+              </label>
               <input
                 type="text"
                 name="address"
@@ -308,7 +328,10 @@ const CreatePropertyContent = () => {
 
             <div className="form-row">
               <div className="form-group">
-                <label className="form-label">Rent Amount-ভাড়ার পরিমাণ (BDT) *</label>
+                <label className="form-label">
+                  Rent Amount-ভাড়ার পরিমাণ (BDT)
+                  <span className="required-star">*</span>
+                </label>
                 <input
                   type="number"
                   name="rentAmount"
@@ -321,7 +344,10 @@ const CreatePropertyContent = () => {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Period *</label>
+                <label className="form-label">
+                  Period
+                  <span className="required-star">*</span>
+                </label>
                 <select
                   name="rentPeriod"
                   className="form-select"
@@ -339,7 +365,10 @@ const CreatePropertyContent = () => {
             <h2>Photos</h2>
 
             <div className="form-group">
-              <label className="form-label">Upload Property Photos (Max 5)</label>
+              <label className="form-label">
+                Upload Property Photos (Max 5)
+                <span className="required-star">*</span>
+              </label>
               <input
                 type="file"
                 multiple
@@ -401,7 +430,10 @@ const CreatePropertyContent = () => {
             <h2>Contact Information</h2>
 
             <div className="form-group">
-              <label className="form-label">Contact Name(আপনার নাম) *</label>
+              <label className="form-label">
+                Contact Name(আপনার নাম)
+                <span className="required-star">*</span>
+              </label>
               <input
                 type="text"
                 name="contactName"
@@ -415,7 +447,10 @@ const CreatePropertyContent = () => {
 
             <div className="form-row">
               <div className="form-group">
-                <label className="form-label">Phone Number(মোবাইল নাম্বার) *</label>
+                <label className="form-label">
+                  Phone Number(মোবাইল নাম্বার)
+                  <span className="required-star">*</span>
+                </label>
                 <input
                   type="tel"
                   name="contactPhone"
@@ -473,7 +508,7 @@ const CreatePropertyContent = () => {
               fontWeight: '600',
               margin: '16px 0 0 0'
             }}>
-              বাকি তথ্যগুলি পূরণ করে এগিয়ে যান
+              বাকি তথ্যগুলি আপনি পরে সম্পাদনা করতে পারবেন, তাই এখনই শুধু "Create Property Now" বাটনে ক্লিক করুন!
             </p>
           </div>
 
