@@ -117,11 +117,13 @@ if (req.files && req.files.length > 0) {
 const uploadedPhotos = [];
 
 if (req.files && req.files.length > 0) {
-  for (const file of req.files) {
-    try {
-      const result = await new Promise((resolve, reject) => {
+  try {
+
+    // upload all images at the SAME TIME (parallel)
+    const uploadPromises = req.files.map(file => {
+      return new Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream(
-          { 
+          {
             folder: 'rentnest/properties',
             resource_type: 'image'
           },
@@ -132,19 +134,25 @@ if (req.files && req.files.length > 0) {
         );
         stream.end(file.buffer);
       });
+    });
 
+    // wait for ALL uploads to finish together
+    const results = await Promise.all(uploadPromises);
+
+    // add all uploaded photos to array
+    results.forEach(result => {
       uploadedPhotos.push({
         url: result.secure_url,
         caption: ''
       });
-      
-    } catch (error) {
-      console.error('Image upload error:', error);
-      return res.status(400).json({
-        success: false,
-        message: 'Failed to upload image. Please try again.'
-      });
-    }
+    });
+
+  } catch (error) {
+    console.error('Image upload error:', error);
+    return res.status(400).json({
+      success: false,
+      message: 'Failed to upload image. Please try again.'
+    });
   }
 }
 

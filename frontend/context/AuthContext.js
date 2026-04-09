@@ -19,13 +19,19 @@ export const AuthProvider = ({ children }) => {
     const checkAuth = async () => {
       if (token) {
         try {
-          const response = await authAPI.getMe();
-          setUser(response.data.data.user);
-        } catch (error) {
-          console.error('Auth check failed:', error);
-          localStorage.removeItem('token');
-          setToken(null);
-        }
+            const response = await authAPI.getMe();
+             setUser(response.data.data.user);
+             } catch (error) {
+             console.error('Auth check failed:', error);
+  
+            // only remove token if it's an auth error
+           // NOT a network error (cold start)
+           if (error.response && error.response.status === 401) {
+            localStorage.removeItem('token');
+             setToken(null);
+             }
+              // if network error, keep token and try again next time
+                }
       }
       setLoading(false);
     };
