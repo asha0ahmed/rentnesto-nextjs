@@ -33,14 +33,77 @@ const PropertyDetails = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="loading-container">
-        <div className="spinner"></div>
-        <p>Loading property details...</p>
+if (loading) {
+  return (
+    <div className="property-details-page">
+      <div className="container">
+
+        {/* Skeleton Image Gallery */}
+        <div className="skeleton skeleton-main-image"></div>
+        <div className="skeleton-thumbnails">
+          <div className="skeleton skeleton-thumbnail"></div>
+          <div className="skeleton skeleton-thumbnail"></div>
+          <div className="skeleton skeleton-thumbnail"></div>
+          <div className="skeleton skeleton-thumbnail"></div>
+        </div>
+
+        {/* Skeleton Details Grid */}
+        <div className="skeleton-details-grid">
+
+          {/* Skeleton Main Content */}
+          <div className="skeleton-main-content">
+
+            {/* Title and Price */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+              paddingBottom: '30px',
+              borderBottom: '2px solid #e5e7eb'
+            }}>
+              <div style={{ flex: 1 }}>
+                <div className="skeleton skeleton-title"
+                  style={{ marginBottom: '12px' }}>
+                </div>
+                <div className="skeleton skeleton-location"></div>
+              </div>
+              <div className="skeleton skeleton-price"></div>
+            </div>
+
+            {/* Quick Info */}
+            <div className="skeleton-quick-info">
+              <div className="skeleton skeleton-info-item"></div>
+              <div className="skeleton skeleton-info-item"></div>
+              <div className="skeleton skeleton-info-item"></div>
+              <div className="skeleton skeleton-info-item"></div>
+            </div>
+
+            {/* Description */}
+            <div>
+              <div className="skeleton skeleton-section-title"></div>
+              <div className="skeleton skeleton-description-line"></div>
+              <div className="skeleton skeleton-description-line"></div>
+              <div className="skeleton skeleton-description-line"></div>
+              <div className="skeleton skeleton-description-line"></div>
+              <div className="skeleton skeleton-description-line"></div>
+            </div>
+
+          </div>
+
+          {/* Skeleton Sidebar */}
+          <div className="skeleton-contact-card">
+            <div className="skeleton skeleton-contact-title"></div>
+            <div className="skeleton skeleton-contact-item"></div>
+            <div className="skeleton skeleton-contact-item"></div>
+            <div className="skeleton skeleton-contact-item"></div>
+            <div className="skeleton skeleton-availability"></div>
+          </div>
+
+        </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
   if (error || !property) {
     return (
