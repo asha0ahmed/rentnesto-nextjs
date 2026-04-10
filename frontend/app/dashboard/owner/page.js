@@ -71,41 +71,52 @@ const OwnerDashboardContent = () => {
             + Add New Property<br />বাসা ভাড়ার বিজ্ঞাপন দিন
           </Link>
         </div>
+ 
+       {/* Skeleton loading for stats */}
 
-        <div className="stats-grid">
-          <div className="stat-card">
+           <div className="stats-grid">
+            {loading ? (
+             <>
+            <SkeletonStat />
+             <SkeletonStat />
+           <SkeletonStat />
+          </>
+             ) : (
+            <>
+             <div className="stat-card">
+                <div className="stat-icon"></div>
+               <div className="stat-info">
+                <h3>{properties.length}</h3>
+               <p>Total Properties</p>
+             </div>
+         </div>
+            <div className="stat-card">
             <div className="stat-icon"></div>
-            <div className="stat-info">
-              <h3>{properties.length}</h3>
-              <p>Total Properties</p>
+               <div className="stat-info">
+               <h3>{properties.filter(p => p.isAvailable).length}</h3>
+             <p>Available</p>
             </div>
           </div>
-
-          <div className="stat-card">
-            <div className="stat-icon"></div>
-            <div className="stat-info">
-              <h3>{properties.filter(p => p.isAvailable).length}</h3>
-              <p>Available</p>
+           <div className="stat-card">
+              <div className="stat-icon"></div>
+              <div className="stat-info">
+             <h3>{properties.filter(p => !p.isAvailable).length}</h3>
+               <p>Unavailable</p>
             </div>
-          </div>
-
-          <div className="stat-card">
-            <div className="stat-icon"></div>
-            <div className="stat-info">
-              <h3>{properties.filter(p => !p.isAvailable).length}</h3>
-              <p>Unavailable</p>
             </div>
-          </div>
-        </div>
+            </>
+           )}
+           </div>
 
         <div className="properties-section">
           <h2>Your Properties ({properties.length})</h2>
 
-          {loading ? (
-            <div className="loading-state">
-              <div className="spinner"></div>
-              <p>Loading your properties...</p>
-            </div>
+{loading ? (
+  <div className="owner-properties-grid">
+    <SkeletonPropertyCard />
+    <SkeletonPropertyCard />
+    <SkeletonPropertyCard />
+  </div>
           ) : error ? (
             <div className="alert alert-error">{error}</div>
           ) : properties.length === 0 ? (
@@ -136,6 +147,39 @@ const OwnerDashboardContent = () => {
     </div>
   );
 };
+
+// Skeleton for stat cards
+const SkeletonStat = () => (
+  <div className="skeleton-stat-card">
+    <div className="skeleton skeleton-stat-icon"></div>
+    <div className="skeleton-stat-info">
+      <div className="skeleton skeleton-stat-number"></div>
+      <div className="skeleton skeleton-stat-label"></div>
+    </div>
+  </div>
+);
+
+// Skeleton for property cards
+const SkeletonPropertyCard = () => (
+  <div className="skeleton-property-card">
+    <div className="skeleton skeleton-property-image"></div>
+    <div className="skeleton-property-content">
+      <div className="skeleton skeleton-property-title"></div>
+      <div className="skeleton skeleton-property-location"></div>
+      <div className="skeleton-property-meta">
+        <div className="skeleton skeleton-property-type"></div>
+        <div className="skeleton skeleton-property-rent"></div>
+      </div>
+      <div className="skeleton-property-actions">
+        <div className="skeleton skeleton-property-action"></div>
+        <div className="skeleton skeleton-property-action"></div>
+        <div className="skeleton skeleton-property-action"></div>
+        <div className="skeleton skeleton-property-action"></div>
+        <div className="skeleton skeleton-property-action-full"></div>
+      </div>
+    </div>
+  </div>
+);
 
 const PropertyCard = ({ property, onDelete, onToggle }) => {
   const photoUrl = property.photos && property.photos.length > 0
