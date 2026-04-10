@@ -177,9 +177,13 @@ const Properties = () => {
 
         <div className="results-section">
           {loading ? (
-            <div className="loading-state">
-              <div className="spinner"></div>
-              <p>Loading properties...</p>
+            <div className="properties-grid">
+               <SkeletonCard />
+               <SkeletonCard />
+               <SkeletonCard />
+               <SkeletonCard />
+               <SkeletonCard />
+               <SkeletonCard />
             </div>
           ) : error ? (
             <div className="alert alert-error">{error}</div>
@@ -207,6 +211,28 @@ const Properties = () => {
               </div>
             </>
           )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Skeleton card shown while loading
+const SkeletonCard = () => {
+  return (
+    <div className="skeleton-card">
+      <div className="skeleton skeleton-image"></div>
+      <div className="skeleton-content">
+        <div className="skeleton skeleton-title"></div>
+        <div className="skeleton skeleton-location"></div>
+        <div className="skeleton-features">
+          <div className="skeleton skeleton-feature"></div>
+          <div className="skeleton skeleton-feature"></div>
+          <div className="skeleton skeleton-feature"></div>
+        </div>
+        <div className="skeleton-footer">
+          <div className="skeleton skeleton-price"></div>
+          <div className="skeleton skeleton-badge"></div>
         </div>
       </div>
     </div>
