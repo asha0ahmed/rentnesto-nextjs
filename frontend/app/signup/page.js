@@ -236,12 +236,32 @@ const Signup = () => {
             </div>
 
             <button
-              type="submit"
-              className="btn btn-primary btn-block"
-              disabled={loading}
-            >
-              {loading ? 'Creating Account...' : 'Create Account'}
-            </button>
+  type="submit"
+  className="btn btn-primary btn-block"
+  disabled={loading}
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '10px'
+  }}
+>
+  {loading ? (
+    <>
+      <div style={{
+        width: '20px',
+        height: '20px',
+        border: '3px solid rgba(255,255,255,0.3)',
+        borderTop: '3px solid white',
+        borderRadius: '50%',
+        animation: 'spin 1s linear infinite'
+      }}></div>
+      Creating Account...
+    </>
+  ) : (
+    'Create Account'
+  )}
+</button>
           </form>
 
           <p className="auth-footer">
