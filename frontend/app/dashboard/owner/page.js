@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useContext } from 'react';
 import Link from 'next/link';
+import { useToast } from '../../../context/ToastContext';
 import { AuthContext } from '../../../context/AuthContext';
 import { propertyAPI } from '../../../services/api';
 import ProtectedRoute from '../../../components/ProtectedRoute';
@@ -12,6 +13,7 @@ const OwnerDashboardContent = () => {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const { addToast } = useToast();
 
   useEffect(() => {
     fetchMyProperties();
@@ -33,31 +35,29 @@ const OwnerDashboardContent = () => {
     }
   };
 
-  const handleDelete = async (id, title) => {
-    if (!window.confirm(`Are you sure you want to delete "${title}"?`)) {
-      return;
-    }
+const handleDelete = async (id, title) => {
+  if (!window.confirm(`Delete "${title}"?`)) return;
+  try {
+    await propertyAPI.deleteProperty(id);
+    addToast('Property deleted successfully!', 'success');
+    fetchMyProperties();
+  } catch (err) {
+    addToast('Failed to delete property.', 'error');
+  }
+};
 
-    try {
-      await propertyAPI.deleteProperty(id);
-      alert('Property deleted successfully!');
-      fetchMyProperties();
-    } catch (err) {
-      alert('Failed to delete property. Please try again.');
-      console.error(err);
-    }
-  };
-
-  const handleToggleAvailability = async (id, currentStatus) => {
-    try {
-      await propertyAPI.toggleAvailability(id);
-      alert(`Property marked as ${currentStatus ? 'unavailable' : 'available'}!`);
-      fetchMyProperties();
-    } catch (err) {
-      alert('Failed to update availability. Please try again.');
-      console.error(err);
-    }
-  };
+const handleToggleAvailability = async (id, currentStatus) => {
+  try {
+    await propertyAPI.toggleAvailability(id);
+    addToast(
+      `Property marked as ${currentStatus ? 'unavailable' : 'available'}!`,
+      'success'
+    );
+    fetchMyProperties();
+  } catch (err) {
+    addToast('Failed to update availability.', 'error');
+  }
+};
 
   return (
     <div className="owner-dashboard">

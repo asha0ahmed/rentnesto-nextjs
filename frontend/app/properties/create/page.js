@@ -4,11 +4,13 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import ProtectedRoute from '../../../components/ProtectedRoute';
+import { useToast } from '../../../context/ToastContext';
 import './PropertyForm.css';
 
 const CreatePropertyContent = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const { addToast } = useToast();
   const [error, setError] = useState('');
 
   const [formData, setFormData] = useState({
@@ -155,10 +157,10 @@ const CreatePropertyContent = () => {
         }
       );
 
-      alert('Property created successfully!');
+      addToast('Property created successfully!', 'success');
       router.push('/dashboard/owner');
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to create property. Please try again.');
+      addToast(err.response?.data?.message || 'Failed to create property. Please try again.', 'error');
       console.error(err);
     } finally {
       setLoading(false);

@@ -1,6 +1,7 @@
 'use client';
 
 import { AuthProvider } from '../context/AuthContext';
+import { ToastProvider } from '../context/ToastContext';
 import { useEffect } from 'react';
 
 export default function Providers({ children }) {
@@ -24,7 +25,9 @@ export default function Providers({ children }) {
 
   return (
     <AuthProvider>
-      {children}
+      <ToastProvider> 
+        {children}
+       </ToastProvider>
     </AuthProvider>
   );
 }

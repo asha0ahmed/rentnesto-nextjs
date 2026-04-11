@@ -4,11 +4,13 @@ import React, { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { propertyAPI } from '../../../../services/api';
 import ProtectedRoute from '../../../../components/ProtectedRoute';
+import { useToast } from '../../../../context/ToastContext';
 import './PropertyForm.css';
 
 const EditPropertyContent = () => {
   const { id } = useParams();
   const router = useRouter();
+  const { addToast } = useToast();
   const [loading, setLoading] = useState(false);
   const [fetchLoading, setFetchLoading] = useState(true);
   const [error, setError] = useState('');
@@ -147,10 +149,10 @@ const EditPropertyContent = () => {
 
     try {
       await propertyAPI.updateProperty(id, propertyData);
-      alert('Property updated successfully!');
+      addToast('Property updated successfully!', 'success');
       router.push('/dashboard/owner');
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to update property. Please try again.');
+      addToast(err.response?.data?.message || 'Failed to update property. Please try again.', 'error');
       console.error(err);
     } finally {
       setLoading(false);
