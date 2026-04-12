@@ -8,46 +8,38 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState(null);
-
-  useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    setToken(storedToken);
-  }, []);
 
   useEffect(() => {
     const checkAuth = async () => {
-      if (token) {
-        try {
-            const response = await authAPI.getMe();
-             setUser(response.data.data.user);
-             } catch (error) {
-             console.error('Auth check failed:', error);
-  
-            // only remove token if it's an auth error
-           // NOT a network error (cold start)
-           if (error.response && error.response.status === 401) {
-            localStorage.removeItem('token');
-             setToken(null);
-             }
-              // if network error, keep token and try again next time
-                }
+      const storedToken = localStorage.getItem('token');
+
+      if (!storedToken) {
+        setLoading(false);
+        return;
       }
+
+      try {
+        const response = await authAPI.getMe();
+        setUser(response.data.data.user);
+      } catch (error) {
+        console.error('Auth check failed:', error);
+        if (error.response && error.response.status === 401) {
+          localStorage.removeItem('token');
+        }
+      }
+
       setLoading(false);
     };
 
     checkAuth();
-  }, [token]);
+  }, []); // ← runs ONCE on mount, reads token directly
 
   const login = async (credentials) => {
     try {
       const response = await authAPI.login(credentials);
       const { user, token } = response.data.data;
-
       localStorage.setItem('token', token);
-      setToken(token);
       setUser(user);
-
       return { success: true };
     } catch (error) {
       return {
@@ -61,11 +53,8 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await authAPI.signup(userData);
       const { user, token } = response.data.data;
-
       localStorage.setItem('token', token);
-      setToken(token);
       setUser(user);
-
       return { success: true };
     } catch (error) {
       return {
@@ -77,7 +66,6 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('token');
-    setToken(null);
     setUser(null);
   };
 
