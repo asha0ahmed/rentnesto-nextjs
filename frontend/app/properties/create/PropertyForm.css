@@ -168,27 +168,60 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .property-form {
-    padding: 24px;
+  .property-form-page {
+    padding: 16px 0;
   }
 
   .form-header h1 {
-    font-size: 24px;
+    font-size: 22px;
+  }
+
+  .form-header p {
+    font-size: 14px;
+  }
+
+  .property-form {
+    padding: 16px;
+    border-radius: 8px;
+  }
+
+  .form-section {
+    margin-bottom: 24px;
+    padding-bottom: 24px;
   }
 
   .form-section h2 {
-    font-size: 18px;
+    font-size: 17px;
   }
 
   .form-row {
     grid-template-columns: 1fr;
+    gap: 0;
   }
 
   .form-actions {
     flex-direction: column;
+    gap: 10px;
+    margin-top: 24px;
+    padding-top: 24px;
   }
 
   .form-actions .btn {
     width: 100%;
+    padding: 14px;
+    font-size: 15px;
+  }
+
+  .property-highlight-box {
+    padding: 14px 16px;
+    margin: 20px 0;
+  }
+
+  .property-highlight-box h3 {
+    font-size: 15px;
+  }
+
+  .property-highlight-box p {
+    font-size: 13px;
   }
 }

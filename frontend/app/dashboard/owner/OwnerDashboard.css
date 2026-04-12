@@ -296,34 +296,81 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+  .owner-dashboard {
+    padding: 16px 0;
+  }
+
   .dashboard-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 20px;
+    gap: 16px;
+    padding: 16px;
+    margin-bottom: 20px;
   }
 
   .dashboard-header h1 {
-    font-size: 24px;
+    font-size: 20px;
+  }
+
+  .dashboard-header .btn {
+    width: 100%;
+    text-align: center;
   }
 
   .stats-grid {
     grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .stat-card {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .stat-icon {
+    font-size: 32px;
+  }
+
+  .stat-info h3 {
+    font-size: 28px;
+  }
+
+  .properties-section {
+    padding: 16px;
+    border-radius: 8px;
+  }
+
+  .properties-section h2 {
+    font-size: 18px;
+    margin-bottom: 16px;
   }
 
   .owner-properties-grid {
     grid-template-columns: 1fr;
-  }
-
-  .properties-section {
-    padding: 20px;
+    gap: 16px;
   }
 
   .property-actions {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
   }
 
   .btn-delete {
-    grid-column: span 1;
+    grid-column: span 2;
+  }
+
+  .btn-action {
+    padding: 10px 8px;
+    font-size: 13px;
+  }
+
+  .empty-state {
+    padding: 40px 16px;
+  }
+
+  .empty-icon img {
+    width: 80px;
   }
 }
 

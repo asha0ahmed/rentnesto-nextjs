@@ -490,99 +490,119 @@
 /* Mobile - Below 768px */
 @media (max-width: 767px) {
   .property-details-page {
-    padding: 20px;
+    padding: 12px;
+  }
+
+  .breadcrumb {
+    font-size: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
   }
 
   .main-image {
-    height: 300px;
+    height: 240px;
+    border-radius: 8px;
+  }
+
+  .thumbnail {
+    width: 70px;
+    height: 52px;
+  }
+
+  .nav-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+
+  .prev-btn { left: 8px; }
+  .next-btn { right: 8px; }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   .main-content {
-    padding: 20px;
+    padding: 16px;
     border-radius: 8px;
   }
 
   .title-section {
     flex-direction: column;
-    gap: 16px;
-    padding-bottom: 20px;
-    margin-bottom: 20px;
+    gap: 12px;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
   }
 
   .title-section h1 {
-    font-size: 24px;
-    flex: none;
+    font-size: 20px;
   }
 
   .price-tag {
     text-align: left;
-    width: 100%;
   }
 
   .price {
-    font-size: 28px;
+    font-size: 24px;
   }
 
   .quick-info {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    padding: 16px;
-    margin-bottom: 30px;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 12px;
+    margin-bottom: 20px;
+  }
+
+  .info-label {
+    font-size: 11px;
+  }
+
+  .info-value {
+    font-size: 14px;
+  }
+
+  .section {
+    margin-bottom: 24px;
   }
 
   .section h2 {
-    font-size: 20px;
-    margin-bottom: 16px;
+    font-size: 18px;
   }
 
   .amenities-grid {
     grid-template-columns: 1fr;
+    gap: 8px;
   }
 
   .terms-grid {
     grid-template-columns: 1fr;
-  }
-
-  .term-item {
-    padding: 12px;
-  }
-
-  .details-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 10px;
   }
 
   .contact-card {
+    padding: 16px;
+    border-radius: 8px;
     position: static;
-    margin-top: 30px;
-  }
-
-  .nav-btn {
-    width: 40px;
-    height: 40px;
-    font-size: 24px;
-  }
-
-  .prev-btn {
-    left: 10px;
-  }
-
-  .next-btn {
-    right: 10px;
-  }
-
-  .thumbnail {
-    width: 80px;
-    height: 60px;
-  }
-
-  .contact-info {
-    gap: 16px;
   }
 
   .contact-card h3 {
-    font-size: 18px;
+    font-size: 16px;
+    margin-bottom: 14px;
+  }
+
+  .contact-info {
+    gap: 12px;
     margin-bottom: 16px;
+  }
+
+  .contact-value {
+    font-size: 15px;
+  }
+
+  .availability-status {
+    padding: 12px;
+    font-size: 14px;
   }
 }
 

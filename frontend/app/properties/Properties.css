@@ -42,6 +42,44 @@
   gap: 12px;
 }
 
+.search-input-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: white;
+  transition: border-color 0.3s ease;
+}
+
+.search-input-wrapper:focus-within {
+  border-color: #2563eb;
+}
+
+.search-icon {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  max-width: 20px;
+  max-height: 20px;
+  opacity: 0.5;
+  flex-shrink: 0;
+  display: block;
+}
+
+.search-input {
+  flex: 1;
+  border: none !important;
+  padding: 12px 0 !important;
+  font-size: 16px;
+  background-color: transparent;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
 .search-input {
   flex: 1;
   font-size: 16px;
@@ -268,88 +306,61 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .properties-page {
-    padding: 20px 0;
+    padding: 16px 0;
   }
 
   .page-header h1 {
-    font-size: 28px;
+    font-size: 22px;
   }
 
   .page-header p {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .search-section {
-    padding: 20px;
+    padding: 16px;
+    margin-bottom: 20px;
   }
 
   .search-bar {
     flex-direction: column;
+    gap: 10px;
+  }
+
+  .search-input-wrapper {
+    width: 100%;
+  }
+
+  .search-bar .btn {
+    width: 100%;
+    padding: 12px;
   }
 
   .filters-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
   }
 
   .properties-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
 
-  .property-card {
-    max-width: 100%;
+  .property-image {
+    height: 200px;
+  }
+
+  .property-info {
+    padding: 14px;
   }
 
   .rent-amount {
     font-size: 20px;
   }
-}
- 
-.search-bar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
 
-.search-input-wrapper {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 0 16px;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  background-color: white;
-  transition: border-color 0.3s ease;
-}
-
-.search-input-wrapper:focus-within {
-  border-color: #2563eb;
-}
-
-.search-icon {
-  width: 20px;
-  height: 20px;
-  opacity: 0.4;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-}
-
-.search-input {
-  flex: 1;
-  border: none !important;
-  padding: 12px 0 !important;
-  font-size: 16px;
-  background-color: transparent;
-}
-
-.search-input::placeholder {
-  color: #999;
-}
-
-.search-input:focus {
-  outline: none;
-  box-shadow: none !important;
+  .empty-state {
+    padding: 40px 16px;
+  }
 }
 
 /* ===== SKELETON LOADING ===== */
