@@ -1,9 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { propertyAPI } from '../../services/api';
 import './Properties.css';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 const Properties = () => {
   const [properties, setProperties] = useState([]);
@@ -19,6 +21,24 @@ const Properties = () => {
     maxRent: '',
     bedrooms: ''
   });
+
+  // --- Autocomplete state ---
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [suggestionsLoading, setSuggestionsLoading] = useState(false);
+  const debounceTimer = useRef(null);
+  const wrapperRef = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const fetchProperties = async () => {
     setLoading(true);
@@ -56,8 +76,48 @@ const Properties = () => {
     });
   };
 
+  // Called when user types in the search box
+  const handleSearchInput = (e) => {
+    const value = e.target.value;
+    setFilters({ ...filters, search: value });
+
+    // Clear previous timer
+    if (debounceTimer.current) clearTimeout(debounceTimer.current);
+
+    if (!value || value.trim().length < 1) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+
+    // Wait 300ms before fetching
+    debounceTimer.current = setTimeout(async () => {
+      setSuggestionsLoading(true);
+      try {
+        const res = await fetch(
+          `${API_URL}/api/search-suggestions?q=${encodeURIComponent(value.trim())}`
+        );
+        const data = await res.json();
+        setSuggestions(data.data || []);
+        setShowSuggestions(true);
+      } catch {
+        setSuggestions([]);
+      } finally {
+        setSuggestionsLoading(false);
+      }
+    }, 300);
+  };
+
+  // When user clicks a suggestion
+  const handleSuggestionClick = (suggestion) => {
+    setFilters({ ...filters, search: suggestion });
+    setSuggestions([]);
+    setShowSuggestions(false);
+  };
+
   const handleSearch = (e) => {
     e.preventDefault();
+    setShowSuggestions(false);
     fetchProperties();
   };
 
@@ -71,6 +131,8 @@ const Properties = () => {
       maxRent: '',
       bedrooms: ''
     });
+    setSuggestions([]);
+    setShowSuggestions(false);
     setTimeout(() => fetchProperties(), 100);
   };
 
@@ -85,17 +147,78 @@ const Properties = () => {
         <div className="search-section">
           <form onSubmit={handleSearch} className="search-form">
             <div className="search-bar">
-              <div className="search-input-wrapper">
-                <img src="/search.png" alt="search" className="search-icon" />
-                <input
-                  type="text"
-                  name="search"
-                  className="form-input search-input"
-                  placeholder="Search by title, location, or description..."
-                  value={filters.search}
-                  onChange={handleFilterChange}
-                />
+
+              {/* --- AUTOCOMPLETE WRAPPER --- */}
+              <div
+                ref={wrapperRef}
+                style={{ flex: 1, position: 'relative' }}
+              >
+                <div className="search-input-wrapper">
+                  <img src="/search.png" alt="search" className="search-icon" />
+                  <input
+                    type="text"
+                    name="search"
+                    className="form-input search-input"
+                    placeholder="Search by title, location, or description..."
+                    value={filters.search}
+                    onChange={handleSearchInput}
+                    onFocus={() => {
+                      if (suggestions.length > 0) setShowSuggestions(true);
+                    }}
+                    autoComplete="off"
+                  />
+                </div>
+
+                {/* Dropdown */}
+                {showSuggestions && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '100%',
+                    left: 0,
+                    right: 0,
+                    background: 'white',
+                    border: '1px solid #e0e0e0',
+                    borderRadius: '0 0 8px 8px',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                    zIndex: 1000,
+                    maxHeight: '240px',
+                    overflowY: 'auto'
+                  }}>
+                    {suggestionsLoading ? (
+                      <div style={{ padding: '12px 16px', color: '#888', fontSize: '14px' }}>
+                        Loading...
+                      </div>
+                    ) : suggestions.length === 0 ? (
+                      <div style={{ padding: '12px 16px', color: '#888', fontSize: '14px' }}>
+                        No locations found
+                      </div>
+                    ) : (
+                      suggestions.map((s, i) => (
+                        <div
+                          key={i}
+                          onMouseDown={() => handleSuggestionClick(s)}
+                          style={{
+                            padding: '10px 16px',
+                            cursor: 'pointer',
+                            fontSize: '15px',
+                            color: '#1f2937',
+                            borderBottom: i < suggestions.length - 1 ? '1px solid #f3f4f6' : 'none',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px'
+                          }}
+                          onMouseEnter={e => e.currentTarget.style.background = '#f0f4ff'}
+                          onMouseLeave={e => e.currentTarget.style.background = 'white'}
+                        >
+                          📍 {s}
+                        </div>
+                      ))
+                    )}
+                  </div>
+                )}
               </div>
+              {/* --- END AUTOCOMPLETE --- */}
+
               <button type="submit" className="btn btn-primary">
                 Search
               </button>
