@@ -210,7 +210,7 @@ const Properties = () => {
                           onMouseEnter={e => e.currentTarget.style.background = '#f0f4ff'}
                           onMouseLeave={e => e.currentTarget.style.background = 'white'}
                         >
-                          📍 {s}
+                          <img src="/location.png" alt="location" style={{ width: '16px', height: '16px', marginRight: '4px' }} /> {s}
                         </div>
                       ))
                     )}
