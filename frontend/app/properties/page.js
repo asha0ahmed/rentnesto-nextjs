@@ -367,18 +367,27 @@ const PropertyCard = ({ property }) => {
     ? property.photos[0].url
     : 'https://via.placeholder.com/400x300?text=No+Image';
 
-  const formatDate = (dateString) => {
+    const formatDate = (dateString) => {
     const date = new Date(dateString);
     const now = new Date();
-    const diffTime = Math.abs(now - date);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const diffSeconds = Math.floor((now - date) / 1000);
+    const diffMinutes = Math.floor(diffSeconds / 60);
+    const diffHours   = Math.floor(diffMinutes / 60);
+    const diffDays    = Math.floor(diffHours / 24);
+    const diffMonths  = Math.floor(diffDays / 30);
+    const diffYears   = Math.floor(diffDays / 365);
 
-    if (diffDays === 0) return 'Today';
-    if (diffDays === 1) return 'Yesterday';
-    if (diffDays < 7) return `${diffDays}d ago`;
-    if (diffDays < 30) return `${Math.floor(diffDays / 7)}w ago`;
-    if (diffDays < 365) return `${Math.floor(diffDays / 30)}m ago`;
-    return date.toLocaleDateString();
+    if (diffSeconds < 60)  return 'Just now';
+    if (diffMinutes === 1) return '1 min ago';
+    if (diffMinutes < 60)  return `${diffMinutes} mins ago`;
+    if (diffHours === 1)   return '1 hour ago';
+    if (diffHours < 24)    return `${diffHours} hours ago`;
+    if (diffDays === 1)    return '1 day ago';
+    if (diffDays < 30)     return `${diffDays} days ago`;
+    if (diffMonths === 1)  return '1 month ago';
+    if (diffMonths < 12)   return `${diffMonths} months ago`;
+    if (diffYears === 1)   return '1 year ago';
+    return `${diffYears} years ago`;
   };
 
   return (
