@@ -468,7 +468,7 @@ const CreatePropertyContent = () => {
             marginBottom: '40px',
             boxShadow: '0 4px 15px rgba(37, 99, 235, 0.2)'
           }}>
-            <button
+<button
               type="submit"
               className="btn btn-primary"
               style={{ 
@@ -477,11 +477,30 @@ const CreatePropertyContent = () => {
                 fontSize: '18px',
                 fontWeight: '700',
                 borderRadius: '8px',
-                letterSpacing: '0.5px'
+                letterSpacing: '0.5px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '10px'
               }}
               disabled={loading}
             >
-              {loading ? '⏳ Creating Property...' : '✓ Create Property Now'}
+              {loading ? (
+                <>
+                  <div style={{
+                    width: '22px',
+                    height: '22px',
+                    border: '3px solid rgba(255,255,255,0.3)',
+                    borderTop: '3px solid white',
+                    borderRadius: '50%',
+                    animation: 'spin 1s linear infinite',
+                    flexShrink: 0
+                  }} />
+                  Uploading & Creating...
+                </>
+              ) : (
+                '✓ Create Property Now'
+              )}
             </button>
             <p style={{ 
               marginTop: '16px', 
