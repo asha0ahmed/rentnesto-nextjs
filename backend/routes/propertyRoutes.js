@@ -196,7 +196,7 @@ router.get('/', async (req, res) => {
       propertyType,
       division,
       district,
-      area,
+      address,
       minRent,
       maxRent,
       bedrooms,
@@ -221,11 +221,6 @@ router.get('/', async (req, res) => {
     if (district) {
       const safeDistrict = sanitizeString(district);
       filter['location.district'] = new RegExp(`^${safeDistrict}$`, 'i');
-    }
-
-    if (area) {
-      const safeArea = sanitizeString(area);
-      filter['location.area'] = new RegExp(`^${safeArea}$`, 'i');
     }
 
     if (minRent || maxRent) {
@@ -256,7 +251,6 @@ if (search && search.trim()) {
     keys: [
       'title',
       'description',
-      'location.area',
       'location.district',
       'location.address',
       'location.division',

@@ -197,8 +197,8 @@ const PropertyCard = ({ property, onDelete, onToggle }) => {
 
       <div className="property-content">
         <h3>{property.title}</h3>
-        <p className="property-location">
-          📍 {property.location.area}, {property.location.district}
+        <p className="property-location"><img src="/location.png" alt="location" style={{ width: '16px', height: '16px', marginRight: '4px' }} />
+              {property.location.address}, {property.location.district}
         </p>
 
         <div className="property-meta">

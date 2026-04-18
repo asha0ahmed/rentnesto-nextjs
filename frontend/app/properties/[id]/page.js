@@ -177,7 +177,7 @@ if (loading) {
                 <h1>{property.title}</h1>
                 <p className="location">
                   <img src="/location.png" alt="location" style={{ width: '16px', height: '16px', marginRight: '4px' }} />
-                  {property.location.address}, {property.location.area}, {property.location.district}
+                  {property.location.address}, {property.location.district}
                 </p>
               </div>
               <div className="price-tag">

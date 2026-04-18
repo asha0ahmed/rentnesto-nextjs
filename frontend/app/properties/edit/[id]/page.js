@@ -21,7 +21,6 @@ const EditPropertyContent = () => {
     propertyType: 'apartment',
     division: 'Dhaka',
     district: '',
-    area: '',
     address: '',
     rentAmount: '',
     rentPeriod: 'monthly',
@@ -62,7 +61,6 @@ const EditPropertyContent = () => {
         propertyType: property.propertyType || 'apartment',
         division: property.location?.division || 'Dhaka',
         district: property.location?.district || '',
-        area: property.location?.area || '',
         address: property.location?.address || '',
         rentAmount: property.rent?.amount || '',
         rentPeriod: property.rent?.period || 'monthly',
@@ -111,7 +109,6 @@ const EditPropertyContent = () => {
       location: {
         division: formData.division,
         district: formData.district,
-        area: formData.area,
         address: formData.address
       },
       rent: {
@@ -266,20 +263,6 @@ const EditPropertyContent = () => {
               </div>
             </div>
 
-            <div className="form-row">
-              <div className="form-group">
-                <label className="form-label">Area/Locality *</label>
-                <input
-                  type="text"
-                  name="area"
-                  className="form-input"
-                  placeholder="e.g., Dhanmondi, Gulshan"
-                  value={formData.area}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-            </div>
 
             <div className="form-group">
               <label className="form-label">Full Address *</label>

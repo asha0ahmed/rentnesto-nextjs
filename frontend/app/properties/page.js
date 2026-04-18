@@ -408,7 +408,7 @@ const PropertyCard = ({ property }) => {
 
         <div className="property-location">
           <img src="/location.png" alt="location" style={{ width: '16px', height: '16px', marginRight: '4px' }} />
-          {property.location.area}, {property.location.district}
+           {property.location.address} ,{property.location.district}
         </div>
 
         <div className="property-features">

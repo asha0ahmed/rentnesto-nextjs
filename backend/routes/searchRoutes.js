@@ -16,11 +16,11 @@ router.get('/', async (req, res) => {
     const properties = await Property.find({
       isAvailable: true,
       $or: [
-        { 'location.area': regex },
         { 'location.district': regex },
         { 'location.division': regex },
+        { 'location.address': regex },
       ]
-    }).select('location.area location.district location.division').limit(50);
+    }).select('location.district location.division location.address').limit(50);
 
     // Collect all matching location strings
     const seen = new Set();
@@ -28,9 +28,9 @@ router.get('/', async (req, res) => {
 
     for (const p of properties) {
       const candidates = [
-        p.location?.area,
         p.location?.district,
         p.location?.division,
+        p.location?.address,
       ];
 
       for (const val of candidates) {

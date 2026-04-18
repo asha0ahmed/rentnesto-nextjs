@@ -19,7 +19,6 @@ const CreatePropertyContent = () => {
     propertyType: 'apartment',
     division: 'Dhaka',
     district: '',
-    area: '',
     address: '',
     rentAmount: '',
     rentPeriod: 'monthly',
@@ -104,7 +103,6 @@ const CreatePropertyContent = () => {
       uploadFormData.append('location', JSON.stringify({
         division: formData.division,
         district: formData.district,
-        area: formData.area,
         address: formData.address
       }));
 
@@ -284,24 +282,6 @@ const CreatePropertyContent = () => {
                   className="form-input"
                   placeholder="Example: Dhaka"
                   value={formData.district}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="form-row">
-              <div className="form-group">
-                <label className="form-label">
-                  Area/Locality(এরিয়া)
-                  <span className="required-star">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="area"
-                  className="form-input"
-                  placeholder="Example: Dhanmondi, Gulshan"
-                  value={formData.area}
                   onChange={handleChange}
                   required
                 />

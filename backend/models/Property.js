@@ -38,10 +38,6 @@ const propertySchema = new mongoose.Schema({
       type: String,
       required: [true, 'Please provide district']
     },
-    area: {
-      type: String,
-      required: [true, 'Please provide area/locality']
-    },
     address: {
       type: String,
       required: [true, 'Please provide full address']
