@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { propertyAPI } from '../../services/api';
 import './Properties.css';
@@ -393,7 +394,13 @@ const PropertyCard = ({ property }) => {
   return (
     <Link href={`/properties/${property._id}`} className="property-card">
       <div className="property-image">
-        <img src={photoUrl} alt={property.title} />
+        <Image
+          src={photoUrl}
+           alt={`${property.title} - ${property.propertyType} in ${property.location.district}`}
+           fill
+           style={{ objectFit: 'cover' }}
+            sizes="(max-width: 768px) 100vw, 320px"
+         />
         <div className="property-badge">
           {property.propertyType}
         </div>
