@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useContext } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useToast } from '../../../context/ToastContext';
 import { AuthContext } from '../../../context/AuthContext';
 import { propertyAPI } from '../../../services/api';
@@ -189,7 +190,13 @@ const PropertyCard = ({ property, onDelete, onToggle }) => {
   return (
     <div className="owner-property-card">
       <div className="property-image">
-        <img src={photoUrl} alt={property.title} />
+        <Image
+           src={photoUrl}
+           alt={`${property.title} - ${property.propertyType} in ${property.location.district}`}
+           fill
+           style={{ objectFit: 'cover' }}
+           sizes="(max-width: 768px) 100vw, 350px"
+         />
         <div className={`availability-badge ${property.isAvailable ? 'available' : 'unavailable'}`}>
           {property.isAvailable ? '✓ Available' : '✗ Unavailable'}
         </div>
