@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import Image from 'next/image';
 import { propertyAPI } from '../../../services/api';
 import './PropertyDetails.css';
 
@@ -135,7 +136,14 @@ if (loading) {
 
         <div className="image-gallery">
           <div className="main-image">
-            <img src={images[currentImageIndex].url} alt={images[currentImageIndex].caption || property.title} />
+            <Image
+             src={images[currentImageIndex].url}
+             alt={images[currentImageIndex].caption || `${property.title} - ${property.location.district}`}
+             fill
+             style={{ objectFit: 'cover' }}
+             sizes="100vw"
+             priority
+            />
 
             {images.length > 1 && (
               <>
@@ -158,12 +166,15 @@ if (loading) {
           {images.length > 1 && (
             <div className="thumbnail-gallery">
               {images.map((image, index) => (
-                <img
-                  key={index}
-                  src={image.url}
-                  alt={image.caption || `Image ${index + 1}`}
-                  className={`thumbnail ${index === currentImageIndex ? 'active' : ''}`}
-                  onClick={() => setCurrentImageIndex(index)}
+                <Image
+                   key={index}
+                   src={image.url}
+                   alt={image.caption || `${property.title} photo ${index + 1}`}
+                   width={120}
+                   height={90}
+                   style={{ objectFit: 'cover' }}
+                   className={`thumbnail ${index === currentImageIndex ? 'active' : ''}`}
+                   onClick={() => setCurrentImageIndex(index)}
                 />
               ))}
             </div>
