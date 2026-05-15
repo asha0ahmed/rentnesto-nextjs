@@ -115,8 +115,8 @@ const Home = () => {
 
           <div className="terms-footer">
             <p>
-              By using Rentnest, you agree to these terms and conditions.
-              Last updated: January 2025
+              By using Rentnesto, you agree to these terms and conditions.
+              Last updated: January 2026
             </p>
           </div>
         </div>
@@ -125,7 +125,7 @@ const Home = () => {
       {/* Features Section */}
       <section className="features">
         <div className="container">
-          <h2 className="section-title">Why Choose Rentnest?</h2>
+          <h2 className="section-title">Why Choose Rentnesto?</h2>
 
           <div className="features-grid">
             <div className="feature-card">
@@ -201,7 +201,7 @@ const Home = () => {
         <div className="container">
           <div className="cta-content">
             <h2>Ready to Find Your Dream Home?</h2>
-            <p>Join thousands of happy tenants and landlords on Rentnest</p>
+            <p>Join thousands of happy tenants and landlords on Rentnesto</p>
             <Link href="/signup" className="btn btn-primary btn-lg">
               Get Started Free
             </Link>
@@ -215,7 +215,7 @@ const Home = () => {
           <div className="footer-content">
             <div className="footer-section">
               <div className="footer-logo">
-                <img src="/logo.png" alt="Rentnest Logo" className="footer-logo-img" />
+                <img src="/logo.png" alt="Rentnesto Logo" className="footer-logo-img" />
               </div>
               <p>Your helpful rental platform in Bangladesh</p>
             </div>
@@ -246,7 +246,7 @@ const Home = () => {
           </div>
 
           <div className="footer-bottom">
-            <p>&copy; 2026 Rentnest. All rights reserved.</p>
+            <p>&copy; 2026 Rentnesto. All rights reserved.</p>
           </div>
         </div>
       </footer>

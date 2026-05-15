@@ -58,7 +58,7 @@ const Login = () => {
       <div className="auth-container">
         <div className="auth-card">
           <h1 className="auth-title">Welcome Back!</h1>
-          <p className="auth-subtitle">Login to your Rentnest account</p>
+          <p className="auth-subtitle">Login to your Rentnesto account</p>
 
           {error && (
             <div className="alert alert-error">

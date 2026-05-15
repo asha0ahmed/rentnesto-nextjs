@@ -102,7 +102,7 @@ const Signup = () => {
       <div className="auth-container">
         <div className="auth-card">
           <h1 className="auth-title">Create Your Account</h1>
-          <p className="auth-subtitle">Join Rentnest today!</p>
+          <p className="auth-subtitle">Join Rentnesto today!</p>
 
           {error && (
             <div className="alert alert-error">
