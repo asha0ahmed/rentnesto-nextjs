@@ -94,6 +94,11 @@ const Login = () => {
                 onChange={handleChange}
                 required
               />
+               <div style={{ textAlign: 'right', marginTop: '8px' }}>
+                  <Link href="/forgot-password" className="auth-link" style={{ fontSize: '14px' }}>
+                     Forgot Password?
+                 </Link>
+               </div>
             </div>
 
             <button

@@ -12,7 +12,7 @@ const connectDatabase = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
 const propertyRoutes = require('./routes/propertyRoutes');
 const searchRoutes = require('./routes/searchRoutes');
-
+const passwordResetRoutes = require('./routes/passwordResetRoutes');
 // Create Express app
 const app = express();
 app.set('trust proxy', 1);
@@ -79,6 +79,7 @@ app.use('/api/auth/signup', authLimiter);
 app.use('/api/auth', authRoutes);
 app.use('/api/properties', propertyRoutes);
 app.use('/api/search-suggestions', searchRoutes);
+app.use('/api/auth', passwordResetRoutes);
 
 // 404 handler - route not found
 app.use((req, res) => {
