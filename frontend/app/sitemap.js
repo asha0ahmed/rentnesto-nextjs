@@ -33,7 +33,7 @@ export default async function sitemap() {
 
   // Dynamic property pages
   try {
-    const response = await axios.get(`${API_URL}/api/properties?limit=1000`);
+   const response = await axios.get(`${API_URL}/api/properties?limit=1000`, { timeout: 5000 });
     const properties = response.data.data.properties || [];
 
     const propertyPages = properties.map((property) => ({

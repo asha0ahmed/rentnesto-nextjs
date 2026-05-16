@@ -1,14 +1,15 @@
 'use client';
 
-import React, { useState, useContext } from 'react';
+import React, { useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
+import { useContext } from 'react';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
-const ResetPassword = () => {
+const ResetPasswordInner = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
@@ -22,7 +23,6 @@ const ResetPassword = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
-  // No token in URL
   if (!token) {
     return (
       <div className="auth-page">
@@ -69,13 +69,11 @@ const ResetPassword = () => {
         password: formData.password
       });
 
-      // Auto login the user
       const { user, token: jwtToken } = response.data.data;
       localStorage.setItem('token', jwtToken);
 
       setSuccess(true);
 
-      // Redirect after 2 seconds
       setTimeout(() => {
         if (user.accountType === 'owner') {
           router.push('/dashboard/owner');
@@ -185,6 +183,22 @@ const ResetPassword = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const ResetPassword = () => {
+  return (
+    <Suspense fallback={
+      <div className="auth-page">
+        <div className="auth-container">
+          <div className="auth-card" style={{ textAlign: 'center' }}>
+            <div className="spinner"></div>
+          </div>
+        </div>
+      </div>
+    }>
+      <ResetPasswordInner />
+    </Suspense>
   );
 };
 
