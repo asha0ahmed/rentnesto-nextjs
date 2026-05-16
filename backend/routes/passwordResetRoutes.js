@@ -1,18 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const crypto = require('crypto');
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 const User = require('../models/User');
 const generateToken = require('../utils/generateToken');
 
 // Email transporter setup
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASSWORD
-  }
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // @route   POST /api/auth/forgot-password
 // @desc    Send password reset email
@@ -44,16 +38,31 @@ router.post('/forgot-password', async (req, res) => {
     const resetExpires = Date.now() + 60 * 60 * 1000; // 1 hour
 
     // Save token to user
-    user.resetPasswordToken = resetToken;
-    user.resetPasswordExpires = resetExpires;
-    await user.save();
+     await User.updateOne(
+      { _id: user._id },
+         {
+           $set: {
+           resetPasswordToken: resetToken,
+           resetPasswordExpires: new Date(resetExpires)
+           }
+          }
+      );
 
     // Build reset URL
     const resetURL = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
 
-    // Send email
-    await transporter.sendMail({
-      from: `"RentNesto" <${process.env.GMAIL_USER}>`,
+// Save token to user
+await user.save();
+
+// Respond immediately — don't wait for email
+res.status(200).json({
+  success: true,
+  message: 'If this email exists, a reset link has been sent.'
+});
+
+// Send email in background (non-blocking)
+resend.emails.send({
+      from: `"RentNesto" <noreply@rentnesto.xyz>" `,
       to: user.email,
       subject: 'RentNesto - Password Reset Request',
       html: `
@@ -88,11 +97,10 @@ router.post('/forgot-password', async (req, res) => {
           </p>
         </div>
       `
-    });
+    })
 
-    res.status(200).json({
-      success: true,
-      message: 'If this email exists, a reset link has been sent.'
+   .catch(err => {
+    console.error('Background email send failed:', err);
     });
 
   } catch (error) {

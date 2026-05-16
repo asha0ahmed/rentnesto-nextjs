@@ -17,15 +17,19 @@ const ForgotPassword = () => {
     setError('');
     setLoading(true);
 
-    try {
-      await axios.post(`${API_URL}/api/auth/forgot-password`, { email });
-      setSent(true);
-    } catch (err) {
-      setError('Something went wrong. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
+// Optimistic UI — show success immediately, send in background
+const emailToSend = email;
+
+// Small delay so spinner briefly shows (feels responsive, not instant-fake)
+setTimeout(() => {
+  setSent(true);
+  setLoading(false);
+}, 400);
+
+// Fire the actual request in background
+axios.post(`${API_URL}/api/auth/forgot-password`, { email: emailToSend })
+  .catch(err => console.error('Reset request failed:', err));
+};
 
   return (
     <div className="auth-page">

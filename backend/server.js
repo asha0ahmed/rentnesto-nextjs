@@ -79,6 +79,15 @@ app.use('/api/auth/signup', authLimiter);
 app.use('/api/auth', authRoutes);
 app.use('/api/properties', propertyRoutes);
 app.use('/api/search-suggestions', searchRoutes);
+const passwordLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // 5 attempts per IP
+  message: 'Too many password reset attempts. Try again in 15 minutes.',
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+app.use('/api/auth/forgot-password', passwordLimiter);
 app.use('/api/auth', passwordResetRoutes);
 
 // 404 handler - route not found
