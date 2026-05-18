@@ -146,6 +146,13 @@ router.post('/login', [
   try {
     const { emailOrMobile, password } = req.body;
 
+    if (typeof emailOrMobile !== 'string' || typeof password !== 'string') {
+      return res.status(400).json({
+    success: false,
+    message: 'Invalid input format'
+       });
+    }
+
     // Validation
     if (!emailOrMobile || !password) {
       return res.status(400).json({

@@ -4,6 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const mongoSanitize = require('express-mongo-sanitize');
 
 // Import database connection
 const connectDatabase = require('./config/database');
@@ -36,6 +37,7 @@ app.use(cors({
 
 // Body parser middleware
 app.use(express.json({ limit: '50mb' }));
+app.use(mongoSanitize());
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Basic test route
