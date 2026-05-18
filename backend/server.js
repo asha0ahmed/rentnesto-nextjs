@@ -70,15 +70,7 @@ const authLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-// Apply general rate limiter to all routes
-app.use(generalLimiter);
-
-// API Routes (with rate limiting for auth)
-app.use('/api/auth/login', authLimiter);
-app.use('/api/auth/signup', authLimiter);
-app.use('/api/auth', authRoutes);
-app.use('/api/properties', propertyRoutes);
-app.use('/api/search-suggestions', searchRoutes);
+// Rate limiting - Password Reset (5 attempts per 15 minutes)
 const passwordLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 5, // 5 attempts per IP
@@ -87,8 +79,20 @@ const passwordLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+// Apply general rate limiter to all routes
+app.use(generalLimiter);
+
+// API Routes (with rate limiting for auth)
+app.use('/api/auth/login', authLimiter);
+app.use('/api/auth/signup', authLimiter);
 app.use('/api/auth/forgot-password', passwordLimiter);
+
+// Register routes
+app.use('/api/auth', authRoutes);
 app.use('/api/auth', passwordResetRoutes);
+app.use('/api/properties', propertyRoutes);
+app.use('/api/search-suggestions', searchRoutes);
+
 
 // 404 handler - route not found
 app.use((req, res) => {
