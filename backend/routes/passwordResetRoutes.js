@@ -59,7 +59,7 @@ res.status(200).json({
 
 // Send email in background (non-blocking)
 resend.emails.send({
-      from: 'RentNesto <onboarding@resend.dev>',
+      from: 'RentNesto <noreply@rentnesto.xyz>',
       to: user.email,
       subject: 'RentNesto - Password Reset Request',
       html: `
