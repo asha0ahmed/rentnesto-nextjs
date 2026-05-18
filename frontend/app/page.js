@@ -225,6 +225,8 @@ const Home = () => {
               <Link href="/properties">Browse Properties</Link>
               <Link href="/signup">Sign Up</Link>
               <Link href="/login">Login</Link>
+              <Link href="/terms">Terms & Conditions</Link>
+              <Link href="/privacy">Privacy Policy</Link>
             </div>
 
             <div className="footer-section">

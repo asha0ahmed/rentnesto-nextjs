@@ -262,6 +262,12 @@ const Signup = () => {
     'Create Account'
   )}
 </button>
+     <p style={{ fontSize: '13px', color: '#6b7280', textAlign: 'center', marginTop: '16px' }}>
+         By signing up, you agree to our{' '}
+          <Link href="/terms" style={{ color: '#2563eb' }}>Terms & Conditions</Link>
+               {' '}and{' '}
+          <Link href="/privacy" style={{ color: '#2563eb' }}>Privacy Policy</Link>
+    </p>
           </form>
 
           <p className="auth-footer">
