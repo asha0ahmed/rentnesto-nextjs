@@ -51,9 +51,6 @@ router.post('/forgot-password', async (req, res) => {
     // Build reset URL
     const resetURL = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
 
-// Save token to user
-await user.save();
-
 // Respond immediately — don't wait for email
 res.status(200).json({
   success: true,
@@ -62,7 +59,7 @@ res.status(200).json({
 
 // Send email in background (non-blocking)
 resend.emails.send({
-      from: `"RentNesto" <noreply@rentnesto.xyz>" `,
+      from: 'RentNesto <onboarding@resend.dev>',
       to: user.email,
       subject: 'RentNesto - Password Reset Request',
       html: `

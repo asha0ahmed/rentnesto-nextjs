@@ -2,6 +2,12 @@ import { propertyAPI } from '../../../services/api';
 
 export async function generateMetadata({ params }) {
   try {
+    if (!params?.id || params.id === 'undefined') {
+      return {
+        title: 'Property Details | RentNesto Bangladesh',
+        description: 'Find rental properties across Bangladesh on RentNesto.',
+      };
+    }
     const response = await propertyAPI.getPropertyById(params.id);
     const property = response.data.data.property;
 
