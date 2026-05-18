@@ -40,15 +40,14 @@ const Login = () => {
 
     setLoading(false);
 
-    if (result.success) {
-      setTimeout(() => {
-        if (user?.accountType === 'owner') {
-          router.push('/dashboard/owner');
-        } else {
-          router.push('/properties');
-        }
-      }, 100);
-    } else {
+if (result.success) {
+  if (result.user?.accountType === 'owner') {
+    router.push('/dashboard/owner');
+  } else {
+    router.push('/properties');
+  }
+}
+    else {
       setError(result.message || 'Login failed. Please try again.');
     }
   };

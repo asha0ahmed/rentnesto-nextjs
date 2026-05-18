@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }) => {
       const { user, token } = response.data.data;
       localStorage.setItem('token', token);
       setUser(user);
-      return { success: true };
+      return { success: true, user };
     } catch (error) {
       return {
         success: false,
