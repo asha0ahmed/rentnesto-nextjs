@@ -95,10 +95,10 @@ export default function PrivacyPolicy() {
           </div>
           <p>আমরা শুধুমাত্র নিম্নলিখিত ক্ষেত্রে তথ্য শেয়ার করি:</p>
           <ul style={{ paddingLeft: '20px', lineHeight: '2', marginTop: '10px' }}>
-            <li><strong>Cloudinary</strong> — ছবি সংরক্ষণের জন্য (Image storage)</li>
-            <li><strong>MongoDB Atlas</strong> — ডেটাবেজ (Database hosting)</li>
-            <li><strong>Resend</strong> — ইমেইল পাঠানোর জন্য (Email delivery)</li>
-            <li><strong>Google Analytics</strong> — ওয়েবসাইট ব্যবহার বিশ্লেষণ (Usage analytics)</li>
+            <li><strong>User Experience</strong> — ছবি সংরক্ষণের জন্য (Image storage)</li>
+            <li><strong>User Experience</strong> — ডেটাবেজ (Database)</li>
+            <li><strong>Reset</strong> — ইমেইল পাঠানোর জন্য (Email delivery)</li>
+            <li><strong>Analytics</strong> — ওয়েবসাইট ব্যবহার বিশ্লেষণ (Usage analytics)</li>
             <li><strong>আইনি কর্তৃপক্ষ</strong> — বাংলাদেশের আইন অনুযায়ী প্রয়োজন হলে (Legal authorities if required by Bangladesh law)</li>
           </ul>
         </Section>
@@ -107,9 +107,8 @@ export default function PrivacyPolicy() {
           <p>আমরা আপনার তথ্য সুরক্ষিত রাখতে নিম্নলিখিত ব্যবস্থা গ্রহণ করি:</p>
           <ul style={{ paddingLeft: '20px', lineHeight: '2', marginTop: '10px' }}>
             <li>পাসওয়ার্ড এনক্রিপশন — Passwords are encrypted using bcrypt</li>
-            <li>JWT টোকেন প্রমাণীকরণ — JWT token authentication</li>
             <li>HTTPS সংযোগ — All data transmitted over HTTPS</li>
-            <li>রেট লিমিটিং — Rate limiting to prevent attacks</li>
+            
           </ul>
           <p style={{ marginTop: '12px', color: '#6b7280' }}>তবে ইন্টারনেটে কোনো পদ্ধতিই ১০০% নিরাপদ নয়। আমরা সর্বোচ্চ নিরাপত্তা নিশ্চিত করার চেষ্টা করি।</p>
         </Section>
