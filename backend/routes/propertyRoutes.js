@@ -136,16 +136,25 @@ if (req.files && req.files.length > 0) {
       });
     });
 
-    // wait for ALL uploads to finish together
-    const results = await Promise.all(uploadPromises);
+const results = await Promise.allSettled(uploadPromises);
 
-    // add all uploaded photos to array
-    results.forEach(result => {
-      uploadedPhotos.push({
-        url: result.secure_url,
-        caption: ''
-      });
+results.forEach(result => {
+  if (result.status === 'fulfilled') {
+    uploadedPhotos.push({
+      url: result.value.secure_url,
+      caption: ''
     });
+  } else {
+    console.error('One image failed to upload:', result.reason?.message);
+  }
+});
+
+if (uploadedPhotos.length === 0 && req.files && req.files.length > 0) {
+  return res.status(400).json({
+    success: false,
+    message: 'All images failed to upload. Please try again.'
+  });
+}
 
   } catch (error) {
     console.error('Image upload error:', error);
