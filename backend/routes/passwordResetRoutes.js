@@ -33,23 +33,28 @@ router.post('/forgot-password', async (req, res) => {
       });
     }
 
-    // Generate reset token
-    const resetToken = crypto.randomBytes(32).toString('hex');
-    const resetExpires = Date.now() + 60 * 60 * 1000; // 1 hour
+const resetToken = crypto.randomBytes(32).toString('hex');
 
-    // Save token to user
-     await User.updateOne(
-      { _id: user._id },
-         {
-           $set: {
-           resetPasswordToken: resetToken,
-           resetPasswordExpires: new Date(resetExpires)
-           }
-          }
-      );
+// Hash the token before storing in database
+const hashedToken = crypto
+  .createHash('sha256')
+  .update(resetToken)
+  .digest('hex');
 
-    // Build reset URL
-    const resetURL = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
+const resetExpires = Date.now() + 60 * 60 * 1000;
+
+await User.updateOne(
+  { _id: user._id },
+  {
+    $set: {
+      resetPasswordToken: hashedToken,      // store hashed version
+      resetPasswordExpires: new Date(resetExpires)
+    }
+  }
+);
+
+// Send original (unhashed) token in the email URL
+const resetURL = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
 
 // Respond immediately — don't wait for email
 res.status(200).json({
@@ -130,11 +135,16 @@ router.post('/reset-password', async (req, res) => {
       });
     }
 
-    // Find user with valid token that hasn't expired
-    const user = await User.findOne({
-      resetPasswordToken: token,
-      resetPasswordExpires: { $gt: Date.now() }
-    });
+      // Hash the incoming token to compare with stored hash
+          const hashedToken = crypto
+           .createHash('sha256')
+           .update(token)
+           .digest('hex');
+
+          const user = await User.findOne({
+          resetPasswordToken: hashedToken,
+          resetPasswordExpires: { $gt: Date.now() }
+          });
 
     if (!user) {
       return res.status(400).json({
