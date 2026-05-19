@@ -190,7 +190,7 @@ if (uploadedPhotos.length === 0 && req.files && req.files.length > 0) {
     console.error('Create property error:', error);
     res.status(500).json({
       success: false,
-      message: error.message || 'Server error'
+      message: process.env.NODE_ENV === 'production' ? 'Server error' : (error.message || 'Server error')
     });
   }
 });
@@ -420,7 +420,7 @@ router.get('/:id', async (req, res) => {
     console.error('Update property error:', error);
     res.status(500).json({
       success: false,
-      message: error.message || 'Server error'
+      message: process.env.NODE_ENV === 'production' ? 'Server error' : (error.message || 'Server error')
     });
   }
 });
