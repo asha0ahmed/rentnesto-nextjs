@@ -344,8 +344,8 @@
   }
 
   .properties-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
   }
 
   .property-image {
