@@ -57,7 +57,7 @@ const checkInappropriateContent = (text) => {
     if (lowerText.includes(keyword.toLowerCase())) {
       return {
         isClean: false,
-        reason: `Contains fake property indicator: "${keyword}"`
+        reason: `Your listing was rejected because it contains a flagged phrase: "${keyword}". Please rewrite that part of your listing.`
       };
     }
   }

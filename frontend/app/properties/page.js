@@ -173,16 +173,12 @@ const Properties = () => {
                 {/* Dropdown */}
                 {showSuggestions && (
                   <div style={{
-                    position: 'absolute',
-                    top: '100%',
-                    left: 0,
-                    right: 0,
+                    position: 'static',
                     background: 'white',
                     border: '1px solid #e0e0e0',
                     borderRadius: '0 0 8px 8px',
                     boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                    zIndex: 1000,
-                    maxHeight: '240px',
+                    maxHeight: '180px',
                     overflowY: 'auto'
                   }}>
                     {suggestionsLoading ? (
