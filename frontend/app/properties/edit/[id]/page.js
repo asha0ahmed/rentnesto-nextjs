@@ -30,7 +30,9 @@ const EditPropertyContent = () => {
     sizeUnit: 'sqft',
     furnished: 'unfurnished',
     amenities: '',
-    photoUrls: '',
+    newImages: [],
+    newImagePreviews: [],
+    existingPhotoUrls: '',
     contactName: '',
     contactPhone: '',
     contactEmail: '',
@@ -70,7 +72,9 @@ const EditPropertyContent = () => {
         sizeUnit: property.features?.size?.unit || 'sqft',
         furnished: property.features?.furnished || 'unfurnished',
         amenities: property.amenities ? property.amenities.join(', ') : '',
-        photoUrls: property.photos ? property.photos.map(p => p.url).join('\n') : '',
+        existingPhotoUrls: property.photos ? property.photos.map(p => p.url).join('\n') : '',
+        newImages: [],
+        newImagePreviews: [],
         contactName: property.contact?.name || '',
         contactPhone: property.contact?.phone || '',
         contactEmail: property.contact?.email || '',
@@ -95,6 +99,33 @@ const EditPropertyContent = () => {
       ...formData,
       [name]: type === 'checkbox' ? checked : value
     });
+  };
+
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length + formData.newImages.length > 5) {
+      alert('Maximum 5 images allowed');
+      return;
+    }
+    setFormData(prev => ({ ...prev, newImages: [...prev.newImages, ...files] }));
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData(prev => ({
+          ...prev,
+          newImagePreviews: [...prev.newImagePreviews, reader.result]
+        }));
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const removeNewImage = (index) => {
+    setFormData(prev => ({
+      ...prev,
+      newImages: prev.newImages.filter((_, i) => i !== index),
+      newImagePreviews: prev.newImagePreviews.filter((_, i) => i !== index)
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -145,11 +176,47 @@ const EditPropertyContent = () => {
     };
 
     try {
-      await propertyAPI.updateProperty(id, propertyData);
+      // If user added new images, use FormData (like create page)
+      // Otherwise, just send JSON as before
+      if (formData.newImages.length > 0) {
+        const uploadFormData = new FormData();
+        uploadFormData.append('title', formData.title);
+        uploadFormData.append('description', formData.description);
+        uploadFormData.append('propertyType', formData.propertyType);
+        uploadFormData.append('location', JSON.stringify({ division: formData.division, district: formData.district, address: formData.address }));
+        uploadFormData.append('rent', JSON.stringify({ amount: Number(formData.rentAmount), period: formData.rentPeriod }));
+        uploadFormData.append('features', JSON.stringify({ bedrooms: formData.bedrooms ? Number(formData.bedrooms) : undefined, bathrooms: formData.bathrooms ? Number(formData.bathrooms) : undefined, size: formData.sizeValue ? { value: Number(formData.sizeValue), unit: formData.sizeUnit } : undefined, furnished: formData.furnished }));
+        uploadFormData.append('amenities', JSON.stringify(formData.amenities ? formData.amenities.split(',').map(a => a.trim()) : []));
+        uploadFormData.append('existingPhotos', formData.existingPhotoUrls);
+        uploadFormData.append('contact', JSON.stringify({ name: formData.contactName, phone: formData.contactPhone, email: formData.contactEmail || undefined }));
+        uploadFormData.append('terms', JSON.stringify({ minimumStay: formData.minimumStay || undefined, securityDeposit: formData.securityDeposit ? Number(formData.securityDeposit) : undefined, utilitiesIncluded: formData.utilitiesIncluded, petsAllowed: formData.petsAllowed, smokingAllowed: formData.smokingAllowed, additionalRules: formData.additionalRules || undefined }));
+        formData.newImages.forEach(image => uploadFormData.append('images', image));
+
+        const axios = (await import('axios')).default;
+        await axios.put(
+          `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/properties/${id}`,
+          uploadFormData,
+          { headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${localStorage.getItem('token')}` } }
+        );
+      } else {
+        // No new images — send plain JSON (existing behavior)
+        await propertyAPI.updateProperty(id, {
+          title: formData.title,
+          description: formData.description,
+          propertyType: formData.propertyType,
+          location: { division: formData.division, district: formData.district, address: formData.address },
+          rent: { amount: Number(formData.rentAmount), period: formData.rentPeriod },
+          features: { bedrooms: formData.bedrooms ? Number(formData.bedrooms) : undefined, bathrooms: formData.bathrooms ? Number(formData.bathrooms) : undefined, size: formData.sizeValue ? { value: Number(formData.sizeValue), unit: formData.sizeUnit } : undefined, furnished: formData.furnished },
+          amenities: formData.amenities ? formData.amenities.split(',').map(a => a.trim()) : [],
+          photos: formData.existingPhotoUrls ? formData.existingPhotoUrls.split('\n').filter(u => u.trim()).map(u => ({ url: u.trim(), caption: '' })) : [],
+          contact: { name: formData.contactName, phone: formData.contactPhone, email: formData.contactEmail || undefined },
+          terms: { minimumStay: formData.minimumStay || undefined, securityDeposit: formData.securityDeposit ? Number(formData.securityDeposit) : undefined, utilitiesIncluded: formData.utilitiesIncluded, petsAllowed: formData.petsAllowed, smokingAllowed: formData.smokingAllowed, additionalRules: formData.additionalRules || undefined }
+        });
+      }
       addToast('Property updated successfully!', 'success');
       router.push('/dashboard/owner');
     } catch (err) {
-      addToast(err.response?.data?.message || 'Failed to update property. Please try again.', 'error');
+      addToast(err.response?.data?.message || 'Failed to update. Please try again.', 'error');
       console.error(err);
     } finally {
       setLoading(false);
@@ -400,24 +467,54 @@ const EditPropertyContent = () => {
             </div>
           </div>
 
-          <div className="form-section">
-            <h2>Photos</h2>
+<div className="form-section">
+  <h2>Photos</h2>
 
-            <div className="form-group">
-              <label className="form-label">Photo URLs (one per line)</label>
-              <textarea
-                name="photoUrls"
-                className="form-textarea"
-                placeholder="https://example.com/photo1.jpg"
-                value={formData.photoUrls}
-                onChange={handleChange}
-                rows="5"
-              />
-              <small className="form-hint">
-                Add image URLs. One URL per line.
-              </small>
-            </div>
-          </div>
+  {/* Show existing photos */}
+  {formData.existingPhotoUrls && (
+    <div className="form-group">
+      <label className="form-label">Current Photos</label>
+      <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '16px' }}>
+        {formData.existingPhotoUrls.split('\n').filter(u => u.trim()).map((url, i) => (
+          <img key={i} src={url} alt={`Photo ${i+1}`}
+            style={{ width: '100px', height: '80px', objectFit: 'cover', borderRadius: '8px', border: '2px solid #e5e7eb' }}
+          />
+        ))}
+      </div>
+      <small className="form-hint">These are your current photos. Upload new ones below to ADD more (max 5 total).</small>
+    </div>
+  )}
+
+  {/* Upload new photos */}
+  <div className="form-group">
+    <label className="form-label">Add New Photos</label>
+    <input
+      type="file"
+      multiple
+      accept="image/*"
+      onChange={handleImageChange}
+      className="form-input"
+      style={{ padding: '12px' }}
+    />
+    <small className="form-hint">JPG, PNG, WebP. Max 5MB each.</small>
+  </div>
+
+  {/* Preview new photos */}
+  {formData.newImagePreviews.length > 0 && (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))', gap: '10px', marginTop: '12px' }}>
+      {formData.newImagePreviews.map((preview, index) => (
+        <div key={index} style={{ position: 'relative', borderRadius: '8px', overflow: 'hidden', aspectRatio: '1' }}>
+          <img src={preview} alt={`New ${index}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <button type="button" onClick={() => removeNewImage(index)}
+            style={{ position: 'absolute', top: '4px', right: '4px', background: 'rgba(0,0,0,0.7)',
+              color: 'white', border: 'none', borderRadius: '50%', width: '22px', height: '22px', cursor: 'pointer', fontSize: '14px' }}>
+            ×
+          </button>
+        </div>
+      ))}
+    </div>
+  )}
+</div>
 
           <div className="form-section">
             <h2>Contact Information</h2>

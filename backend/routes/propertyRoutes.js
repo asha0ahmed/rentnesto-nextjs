@@ -363,7 +363,7 @@ router.get('/:id', async (req, res) => {
 // @route   PUT /api/properties/:id
 // @desc    Update property (Owner only - own property)
 // @access  Private (Owner)
-router.put('/:id', protect, isOwner, async (req, res) => {
+  router.put('/:id', protect, isOwner, upload.array('images', 5), async (req, res) => {
   try {
     let property = await Property.findById(req.params.id);
 
@@ -379,6 +379,26 @@ router.put('/:id', protect, isOwner, async (req, res) => {
         success: false,
         message: 'You are not authorized to update this property'
       });
+    }
+
+    // If new images were uploaded, upload them to Cloudinary and merge with existing
+    if (req.files && req.files.length > 0) {
+      const uploadPromises = req.files.map(file => new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: 'rentnest/properties', resource_type: 'image' },
+          (error, result) => { if (error) reject(error); else resolve(result); }
+        );
+        stream.end(file.buffer);
+      }));
+      const results = await Promise.allSettled(uploadPromises);
+      const newPhotos = results.filter(r => r.status === 'fulfilled').map(r => ({ url: r.value.secure_url, caption: '' }));
+
+      // Keep existing photos from the existingPhotos field (if sent)
+      const existingUrls = req.body.existingPhotos
+        ? req.body.existingPhotos.split('\n').filter(u => u.trim()).map(u => ({ url: u.trim(), caption: '' }))
+        : [];
+
+      req.body.photos = [...existingUrls, ...newPhotos];
     }
 
     property = await Property.findByIdAndUpdate(
