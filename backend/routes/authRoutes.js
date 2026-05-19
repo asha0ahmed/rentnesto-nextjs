@@ -114,7 +114,7 @@ router.post('/signup', [
     console.error('Signup error:', error);
     res.status(500).json({
       success: false,
-      message: error.message || 'Server error during signup'
+      message: process.env.NODE_ENV === 'production' ? 'Server error' : (error.message || 'Server error during signup')
     });
   }
 });

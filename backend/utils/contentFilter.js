@@ -47,7 +47,7 @@ const checkInappropriateContent = (text) => {
     if (lowerText.includes(keyword.toLowerCase())) {
       return {
         isClean: false,
-        reason: `Contains suspicious scam keyword: "${keyword}"`
+        reason: `Your listing was rejected because it contains a flagged phrase: "${keyword}". Please rewrite that part of your listing.`
       };
     }
   }
@@ -62,25 +62,8 @@ const checkInappropriateContent = (text) => {
     }
   }
   
-  // Check for excessive punctuation (spam indicator)
-  const exclamationCount = (text.match(/!/g) || []).length;
-  const questionCount = (text.match(/\?/g) || []).length;
+
   
-  if (exclamationCount > 5 || questionCount > 5) {
-    return {
-      isClean: false,
-      reason: 'Excessive punctuation detected (possible spam)'
-    };
-  }
-  
-  // Check for all caps (screaming/spam)
-  const wordsInCaps = text.match(/\b[A-Z]{4,}\b/g) || [];
-  if (wordsInCaps.length > 3) {
-    return {
-      isClean: false,
-      reason: 'Excessive capital letters detected (possible spam)'
-    };
-  }
   
   // Check for suspicious URLs
   const urlPattern = /(?:https?:\/\/)?(?:www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}/g;
