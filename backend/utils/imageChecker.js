@@ -1,4 +1,3 @@
-const axios = require('axios');
 
 // Simple image validation (checks file properties)
 const validateImage = (file) => {
